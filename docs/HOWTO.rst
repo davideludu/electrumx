@@ -24,7 +24,7 @@ DB Engine        A database engine package is required; two are
 ================ ========================
 
 Some coins need an additional package, typically for their block hash
-functions. For example, `dash_hash`_ is required for DASH. Scrypt coins
+functions. For example, `zip_hash`_ is required for ZIP. Scrypt coins
 require a Python interpreter compiled and/or linked with OpenSSL 1.1.0
 or higher.
 
@@ -442,6 +442,6 @@ You can then set the port as follows and advertise the service externally on the
 .. _`daemontools`: http://cr.yp.to/daemontools.html
 .. _`runit`: http://smarden.org/runit/index.html
 .. _`aiohttp`: https://pypi.python.org/pypi/aiohttp
-.. _`dash_hash`: https://pypi.python.org/pypi/dash_hash
+.. _`zip_hash`: https://pypi.python.org/pypi/zip_hash
 .. _`contrib/raspberrypi3/install_electrumx.sh`: https://github.com/spesmilo/electrumx/blob/master/contrib/raspberrypi3/install_electrumx.sh
 .. _`contrib/raspberrypi3/run_electrumx.sh`: https://github.com/spesmilo/electrumx/blob/master/contrib/raspberrypi3/run_electrumx.sh

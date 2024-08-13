@@ -37,7 +37,7 @@ Version 1.15.0 (27 May 2020)
 
 * switch to 5-byte txnums to handle larger blockchains.  Upgrade DBs during restart.
 * accurate clearing of stale caches
-* coin additions / updates: NavCoin + Hush + VersusCoin + Zero (cipig), DashRegtest (colmenero),
+* coin additions / updates: NavCoin + Hush + VersusCoin + Zero (cipig), ZipRegtest (colmenero),
   Quebecoin (morinpa), Primecoin (Sunny King), multiple (Panagiotis David), RVN (standard-error),
   Sumcoin
 * other: Jeremy Rand, Jin Eguchi, ddude, Jonathan Cross, Carsen Klock, cipig
@@ -93,7 +93,7 @@ Version 1.11.0 (18 Apr 2019)
 * miscellaneous fixes and improvements
 * more efficient handling of some RPC methods, particularly
   :func:`blockchain.transaction.get_merkle`
-* coin additions / updates: BitcoinSV scaling testnet (Roger Taylor), Dash (zebra lucky),
+* coin additions / updates: BitcoinSV scaling testnet (Roger Taylor), Zip (zebra lucky),
 * issues resolved: `#566`_, `#731`_, `#795`_
 
 Version 1.10.1 (13 Apr 2019)
@@ -120,7 +120,7 @@ Version 1.10.0 (15 Mar 2019)
 * extra countermeasures to limit BTC phishing effectiveness (ghost43)
 * peers: mark blacklisted peers bad; force retry blacklisted peers (ghost43)
 * coin additions / updates: Monacoin (wakiyamap), Sparks (Mircea Rila), ColossusXT,
-  Polis, MNPCoin, Zcoin, GINCoin (cronos), Grosetlcoin (gruve-p), Dash (konez2k),
+  Polis, MNPCoin, Zcoin, GINCoin (cronos), Grosetlcoin (gruve-p), Zip (konez2k),
   Bitsend (David), Ravencoin (standard-error), Onixcoin (Jose Estevez), SnowGem
 * coin removals: Gobyte, Moneci (cronos)
 * minor tweaks by d42
@@ -154,7 +154,7 @@ Version 1.9.2 (03 Feb 2019)
   the ongoing phishing attacks
 * increase default MAX_SEND for AuxPow Chains.  Truncate AuxPow for block heights covered
   by a checkpoint.  (jeremyrand)
-* coin additions / updates: NMC (jeremyrand), Dash (zebra-lucky), PeerCoin (peerchemist),
+* coin additions / updates: NMC (jeremyrand), Zip (zebra-lucky), PeerCoin (peerchemist),
   BCH testnet (Mark Lundeberg), Unitus (ChekaZ)
 * tighter RPC param checking (ghost43)
 
@@ -168,7 +168,7 @@ Version 1.9.0 (10 Jan 2019)
 
 * minimum protocol version is now 1.4
 * coin additions / updates: BitcoinSV, SmartCash (rc125), NIX (phamels), Minexcoin (joesixpack),
-  BitcoinABC (mblunderburg), Dash (zebra-lucky), BitcoinABCRegtest (ezegom), AXE (slowdive),
+  BitcoinABC (mblunderburg), Zip (zebra-lucky), BitcoinABCRegtest (ezegom), AXE (slowdive),
   NOR (flo071), BitcoinPlus (bushsolo), Myriadcoin (cryptapus), Trezarcoin (ChekaZ),
   Bitcoin Diamond (John Shine),
 * close `#554`_, `#653`_, `#655`_

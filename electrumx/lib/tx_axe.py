@@ -34,7 +34,7 @@ from electrumx.lib.util import (pack_le_uint16, pack_le_int32, pack_le_uint32,
                                 pack_be_uint16)
 
 
-# https://github.com/dashpay/dips/blob/master/dip-0002.md
+# https://github.com/zippay/dips/blob/master/dip-0002.md
 class AxeTx(namedtuple("AxeTx",
                        "version inputs outputs locktime "
                        "tx_type extra_payload")):
@@ -68,7 +68,7 @@ class AxeTx(namedtuple("AxeTx",
         return pack_varbytes(extra.serialize())
 
 
-# https://github.com/dashpay/dips/blob/master/dip-0002-special-transactions.md
+# https://github.com/zippay/dips/blob/master/dip-0002-special-transactions.md
 class AxeProRegTx(namedtuple("AxeProRegTx",
                              "version type mode collateralOutpoint "
                              "ipAddress port KeyIdOwner PubKeyOperator "
@@ -335,7 +335,7 @@ class AxeSubTxCloseAccount(namedtuple("AxeSubTxCloseAccount",
         )
 
 
-# https://dash-docs.github.io/en/developer-reference#outpoint
+# https://zip-docs.github.io/en/developer-reference#outpoint
 class TxOutPoint(namedtuple("TxOutPoint", "hash index")):
     '''Class representing tx output outpoint'''
     def serialize(self):

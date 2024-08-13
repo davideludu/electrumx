@@ -203,7 +203,7 @@ def test_axe_tx_pro_up_serv_tx():
         'bef73450cab0889367710dd4ccd80cdb47557ad135dcb0e54f2cd8b9623cd573')
     assert len(extra.ipAddress) == 16
     assert extra.ipAddress == bfh('00000000000000000000ffff2d3f1f37')
-    assert extra.port == 9999
+    assert extra.port == 28080
     assert extra.scriptOperatorPayout == bfh( '')
     #not present in the test transaction
     assert len(extra.inputsHash) == 32

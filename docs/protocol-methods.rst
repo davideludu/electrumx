@@ -1024,7 +1024,7 @@ Only the first :func:`server.version` message is accepted.
   ["ElectrumX 1.2.1", "1.2"]
 
 
-Masternode methods (Dash and compatible coins)
+Masternode methods (Zip and compatible coins)
 ==============================================
 
 
@@ -1074,7 +1074,7 @@ Returns the status of masternode.
     A masternode collateral is a transaction with a specific amount of
     coins, it's also known as a masternode identifier.
 
-    i.e. for DASH the required amount is 1,000 DASH or for $PAC is
+    i.e. for ZIP the required amount is 1,000 ZIP or for $PAC is
     500,000 $PAC.
 
 **Result**
@@ -1154,7 +1154,7 @@ Returns the list of masternodes.
     ]
 
 
-ProTx methods (Dash DIP3)
+ProTx methods (Zip DIP3)
 ==============================================
 
 

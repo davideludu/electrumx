@@ -44,11 +44,11 @@ from electrumx.lib.script import (_match_ops, Script, ScriptError,
                                   ScriptPubKey, OpCodes)
 import electrumx.lib.tx as lib_tx
 from electrumx.lib.tx import Tx
-import electrumx.lib.tx_dash as lib_tx_dash
+import electrumx.lib.tx_zip as lib_tx_zip
 import electrumx.lib.tx_axe as lib_tx_axe
 import electrumx.server.block_processor as block_proc
 import electrumx.server.daemon as daemon
-from electrumx.server.session import (ElectrumX, DashElectrumX,
+from electrumx.server.session import (ElectrumX, ZipElectrumX,
                                       SmartCashElectrumX, AuxPoWElectrumX,
                                       NameIndexElectrumX, NameIndexAuxPoWElectrumX)
 
@@ -1286,68 +1286,28 @@ class DogecoinTestnet(Dogecoin):
                     '4d7049f45189db5664f3c4d07350559e')
 
 
-# Source: https://github.com/dashpay/dash
-class Dash(Coin):
-    NAME = "Dash"
-    SHORTNAME = "DASH"
+# Source: https://github.com/6zip-project/6zip
+class Zip(Coin):
+    NAME = "Zip"
+    SHORTNAME = "ZIP"
     NET = "mainnet"
     XPUB_VERBYTES = bytes.fromhex("02fe52cc")
     XPRV_VERBYTES = bytes.fromhex("02fe52f8")
-    GENESIS_HASH = ('00000ffd590b1485b3caadc19b22e637'
-                    '9c733355108f107a430458cdf3407ab6')
+    GENESIS_HASH = ('00000b0896b55ada0b830f4ae96b81344'
+                    '119008714af713b0b693dc0ca92df6f')
     P2PKH_VERBYTE = bytes.fromhex("4c")
     P2SH_VERBYTES = (bytes.fromhex("10"),)
     WIF_BYTE = bytes.fromhex("cc")
-    TX_COUNT_HEIGHT = 569399
-    TX_COUNT = 2157510
+    TX_COUNT_HEIGHT = 23241
+    TX_COUNT = 59201
     TX_PER_BLOCK = 4
-    RPC_PORT = 9998
+    RPC_PORT = 28081
     PEERS = [
-        'electrum.dash.org s t',
-        'electrum.masternode.io s t',
-        'electrum-drk.club s t',
-        'dashcrypto.space s t',
-        'electrum.dash.siampm.com s t',
+        'electrumx.6zip.online s t',
     ]
-    SESSIONCLS = DashElectrumX
-    DAEMON = daemon.DashDaemon
-    DESERIALIZER = lib_tx_dash.DeserializerDash
-
-    @classmethod
-    def header_hash(cls, header):
-        '''Given a header return the hash.'''
-        import dash_hash
-        return dash_hash.getPoWHash(header)
-
-
-class DashTestnet(Dash):
-    SHORTNAME = "tDASH"
-    NET = "testnet"
-    XPUB_VERBYTES = bytes.fromhex("3a805837")
-    XPRV_VERBYTES = bytes.fromhex("3a8061a0")
-    GENESIS_HASH = ('00000bafbc94add76cb75e2ec9289483'
-                    '7288a481e5c005f6563d91623bf8bc2c')
-    P2PKH_VERBYTE = bytes.fromhex("8c")
-    P2SH_VERBYTES = (bytes.fromhex("13"),)
-    WIF_BYTE = bytes.fromhex("ef")
-    TX_COUNT_HEIGHT = 101619
-    TX_COUNT = 132681
-    TX_PER_BLOCK = 1
-    RPC_PORT = 19998
-    PEER_DEFAULT_PORTS = {'t': '51001', 's': '51002'}
-    PEERS = [
-        'electrum.dash.siampm.com s t',
-        'dasht.random.re s54002 t54001',
-    ]
-
-
-class DashRegtest(DashTestnet):
-    NET = "regtest"
-    GENESIS_HASH = ('000008ca1832a4baf228eb1553c03d3a'
-                    '2c8e02399550dd6ea8d65cec3ef23d2e')
-    PEERS = []
-    TX_COUNT_HEIGHT = 1
-    TX_COUNT = 1
+    SESSIONCLS = ZipElectrumX
+    DAEMON = daemon.ZipDaemon
+    DESERIALIZER = lib_tx_zip.DeserializerZip
 
 
 class Argentum(AuxPowMixin, Coin):
@@ -2126,7 +2086,7 @@ class DenariusTestnet(Denarius):
     REORG_LIMIT = 2000
 
 
-class Sibcoin(Dash):
+class Sibcoin(Zip):
     NAME = "Sibcoin"
     SHORTNAME = "SIB"
     NET = "mainnet"
@@ -2137,7 +2097,7 @@ class Sibcoin(Dash):
     WIF_BYTE = bytes.fromhex("80")
     GENESIS_HASH = ('00000c492bf73490420868bc577680bf'
                     'c4c60116e7e85343bc624787c21efa4c')
-    DAEMON = daemon.DashDaemon
+    DAEMON = daemon.ZipDaemon
     TX_COUNT = 1000
     TX_COUNT_HEIGHT = 10000
     TX_PER_BLOCK = 1
@@ -2416,7 +2376,7 @@ class DecredTestnet(Decred):
     RPC_PORT = 19109
 
 
-class Axe(Dash):
+class Axe(Zip):
     NAME = "Axe"
     SHORTNAME = "AXE"
     NET = "mainnet"
@@ -2427,8 +2387,8 @@ class Axe(Dash):
     WIF_BYTE = bytes.fromhex("cc")
     GENESIS_HASH = ('00000c33631ca6f2f61368991ce2dc03'
                     '306b5bb50bf7cede5cfbba6db38e52e6')
-    SESSIONCLS = DashElectrumX
-    DAEMON = daemon.DashDaemon
+    SESSIONCLS = ZipElectrumX
+    DAEMON = daemon.ZipDaemon
     DESERIALIZER = lib_tx_axe.DeserializerAxe
     TX_COUNT = 18405
     TX_COUNT_HEIGHT = 30237
@@ -2444,8 +2404,8 @@ class Axe(Dash):
         Need to download `axe_hash` module
         Source code: https://github.com/AXErunners/axe_hash
         '''
-        import dash_hash
-        return dash_hash.getPoWHash(header)
+        import zip_hash
+        return zip_hash.getPoWHash(header)
 
 
 class AxeTestnet(Axe):
@@ -2536,8 +2496,8 @@ class Odin(Coin):
     HDR_V4_HEIGHT = 143447
     HDR_V4_START_OFFSET = HDR_V4_HEIGHT * BASIC_HEADER_SIZE
 
-    SESSIONCLS = DashElectrumX
-    DAEMON = daemon.DashDaemon
+    SESSIONCLS = ZipElectrumX
+    DAEMON = daemon.ZipDaemon
     DESERIALIZER = lib_tx.DeserializerSegWit
 
     @classmethod
@@ -2578,16 +2538,16 @@ class Pac(Coin):
         'electrum.paccoin.io s t',
         'electro-pac.paccoin.io s t'
     ]
-    SESSIONCLS = DashElectrumX
-    DAEMON = daemon.DashDaemon
+    SESSIONCLS = ZipElectrumX
+    DAEMON = daemon.ZipDaemon
     ESTIMATE_FEE = 0.00001
     RELAY_FEE = 0.00001
 
     @classmethod
     def header_hash(cls, header):
         '''Given a header return the hash.'''
-        import dash_hash
-        return dash_hash.getPoWHash(header)
+        import zip_hash
+        return zip_hash.getPoWHash(header)
 
 
 class PacTestnet(Pac):
@@ -2627,7 +2587,7 @@ class Zcoin(Coin):
     MTP_HEADER_DATA_START = Coin.BASIC_HEADER_SIZE + MTP_HEADER_EXTRA_SIZE
     MTP_HEADER_DATA_END = MTP_HEADER_DATA_START + MTP_HEADER_DATA_SIZE
     STATIC_BLOCK_HEADERS = False
-    SESSIONCLS = DashElectrumX
+    SESSIONCLS = ZipElectrumX
     DAEMON = daemon.ZcoinMtpDaemon
     DESERIALIZER = lib_tx.DeserializerZcoin
     PEERS = [
@@ -2692,14 +2652,14 @@ class Polis(Coin):
     PEERS = [
         'electrum.polispay.com'
     ]
-    SESSIONCLS = DashElectrumX
-    DAEMON = daemon.DashDaemon
+    SESSIONCLS = ZipElectrumX
+    DAEMON = daemon.ZipDaemon
 
     @classmethod
     def header_hash(cls, header):
         '''Given a header return the hash.'''
-        import dash_hash
-        return dash_hash.getPoWHash(header)
+        import zip_hash
+        return zip_hash.getPoWHash(header)
 
 
 class MNPCoin(Coin):
@@ -2720,8 +2680,8 @@ class MNPCoin(Coin):
     PEERS = [
         'electrum.polispay.com'
     ]
-    SESSIONCLS = DashElectrumX
-    DAEMON = daemon.DashDaemon
+    SESSIONCLS = ZipElectrumX
+    DAEMON = daemon.ZipDaemon
 
     @classmethod
     def header_hash(cls, header):
@@ -2752,8 +2712,8 @@ class ColossusXT(Coin):
     PEERS = [
         'electrum.polispay.com'
     ]
-    SESSIONCLS = DashElectrumX
-    DAEMON = daemon.DashDaemon
+    SESSIONCLS = ZipElectrumX
+    DAEMON = daemon.ZipDaemon
 
     @classmethod
     def static_header_offset(cls, height):
@@ -2956,13 +2916,13 @@ class Bitg(Coin):
     WIF_BYTE = bytes.fromhex("2e")
     GENESIS_HASH = (
         '000008467c3a9c587533dea06ad9380cded3ed32f9742a6c0c1aebc21bf2bc9b')
-    DAEMON = daemon.DashDaemon
+    DAEMON = daemon.ZipDaemon
     TX_COUNT = 1000
     TX_COUNT_HEIGHT = 10000
     TX_PER_BLOCK = 1
     RPC_PORT = 9332
     REORG_LIMIT = 1000
-    SESSIONCLS = DashElectrumX
+    SESSIONCLS = ZipElectrumX
 
     @classmethod
     def header_hash(cls, header):
@@ -3198,8 +3158,8 @@ class Bitsend(Coin):
             import xevan_hash
             return xevan_hash.getPoWHash(header)
         else:
-            import dash_hash
-            return dash_hash.getPoWHash(header)
+            import zip_hash
+            return zip_hash.getPoWHash(header)
 
     @classmethod
     def genesis_block(cls, block):
@@ -3339,14 +3299,14 @@ class Bolivarcoin(Coin):
     RPC_PORT = 3563
     REORG_LIMIT = 800
     PEERS = []
-    SESSIONCLS = DashElectrumX
-    DAEMON = daemon.DashDaemon
+    SESSIONCLS = ZipElectrumX
+    DAEMON = daemon.ZipDaemon
 
     @classmethod
     def header_hash(cls, header):
         '''Given a header return the hash.'''
-        import dash_hash
-        return dash_hash.getPoWHash(header)
+        import zip_hash
+        return zip_hash.getPoWHash(header)
 
 
 class Onixcoin(Coin):
@@ -3364,14 +3324,14 @@ class Onixcoin(Coin):
     RPC_PORT = 41019
     REORG_LIMIT = 800
     PEERS = []
-    SESSIONCLS = DashElectrumX
-    DAEMON = daemon.DashDaemon
+    SESSIONCLS = ZipElectrumX
+    DAEMON = daemon.ZipDaemon
 
     @classmethod
     def header_hash(cls, header):
         '''Given a header return the hash.'''
-        import dash_hash
-        return dash_hash.getPoWHash(header)
+        import zip_hash
+        return zip_hash.getPoWHash(header)
 
 
 class Electra(Coin):

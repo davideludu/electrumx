@@ -1573,8 +1573,8 @@ class LocalRPC(SessionBase):
         return 'RPC'
 
 
-class DashElectrumX(ElectrumX):
-    '''A TCP server that handles incoming Electrum Dash connections.'''
+class ZipElectrumX(ElectrumX):
+    '''A TCP server that handles incoming Electrum Zip connections.'''
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -1764,7 +1764,7 @@ class DashElectrumX(ElectrumX):
         return res
 
 
-class SmartCashElectrumX(DashElectrumX):
+class SmartCashElectrumX(ZipElectrumX):
     '''A TCP server that handles incoming Electrum-SMART connections.'''
 
     def set_request_handlers(self, ptuple):

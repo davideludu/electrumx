@@ -24,7 +24,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-'''Deserializer for Dash DIP2 special transaction types'''
+'''Deserializer for Zip DIP2 special transaction types'''
 
 from collections import namedtuple
 
@@ -34,11 +34,11 @@ from electrumx.lib.util import (pack_le_uint16, pack_le_int32, pack_le_uint32,
                                 pack_be_uint16)
 
 
-# https://github.com/dashpay/dips/blob/master/dip-0002.md
-class DashTx(namedtuple("DashTx",
+# https://github.com/zippay/dips/blob/master/dip-0002.md
+class ZipTx(namedtuple("ZipTx",
                         "version inputs outputs locktime "
                         "tx_type extra_payload")):
-    '''Class representing a Dash transaction'''
+    '''Class representing a Zip transaction'''
     def serialize(self):
         nLocktime = pack_le_uint32(self.locktime)
         txins = (pack_varint(len(self.inputs)) +
@@ -57,19 +57,19 @@ class DashTx(namedtuple("DashTx",
 
     def _serialize_extra_payload(self):
         extra = self.extra_payload
-        spec_tx_class = DeserializerDash.SPEC_TX_HANDLERS.get(self.tx_type)
+        spec_tx_class = DeserializerZip.SPEC_TX_HANDLERS.get(self.tx_type)
         if not spec_tx_class:
             assert isinstance(extra, (bytes, bytearray))
             return pack_varbytes(extra)
 
         if not isinstance(extra, spec_tx_class):
-            raise ValueError('Dash tx_type does not conform with extra'
+            raise ValueError('Zip tx_type does not conform with extra'
                              ' payload class: %s, %s' % (self.tx_type, extra))
         return pack_varbytes(extra.serialize())
 
 
-# https://github.com/dashpay/dips/blob/master/dip-0002-special-transactions.md
-class DashProRegTx(namedtuple("DashProRegTx",
+# https://github.com/zippay/dips/blob/master/dip-0002-special-transactions.md
+class ZipProRegTx(namedtuple("ZipProRegTx",
                               "version type mode collateralOutpoint "
                               "ipAddress port KeyIdOwner PubKeyOperator "
                               "KeyIdVoting operatorReward scriptPayout "
@@ -124,7 +124,7 @@ class DashProRegTx(namedtuple("DashProRegTx",
             platformP2PPort = deser._read_le_uint16()   # platformP2PPort
             platformHTTPPort = deser._read_le_uint16()  # platformHTTPPort
         payloadSig = deser._read_varbytes()             # payloadSig
-        return DashProRegTx(
+        return ZipProRegTx(
             version, ntype, mode, collateralOutpoint,
             ipAddress, port, KeyIdOwner, PubKeyOperator,
             KeyIdVoting, operatorReward, scriptPayout,
@@ -133,7 +133,7 @@ class DashProRegTx(namedtuple("DashProRegTx",
         )
 
 
-class DashProUpServTx(namedtuple("DashProUpServTx",
+class ZipProUpServTx(namedtuple("ZipProUpServTx",
                                  "version type proTxHash ipAddress port "
                                  "scriptOperatorPayout inputsHash "
                                  "platformNodeID platformP2PPort "
@@ -179,7 +179,7 @@ class DashProUpServTx(namedtuple("DashProUpServTx",
             platformP2PPort = deser._read_le_uint16()       # platformP2PPort
             platformHTTPPort = deser._read_le_uint16()      # platformHTTPPort
         payloadSig = deser._read_nbytes(96)                 # payloadSig
-        return DashProUpServTx(
+        return ZipProUpServTx(
             version, ntype, proTxHash, ipAddress, port,
             scriptOperatorPayout, inputsHash,
             platformNodeID, platformP2PPort,
@@ -187,7 +187,7 @@ class DashProUpServTx(namedtuple("DashProUpServTx",
         )
 
 
-class DashProUpRegTx(namedtuple("DashProUpRegTx",
+class ZipProUpRegTx(namedtuple("ZipProUpRegTx",
                                 "version proTxHash mode PubKeyOperator "
                                 "KeyIdVoting scriptPayout inputsHash "
                                 "payloadSig")):
@@ -210,7 +210,7 @@ class DashProUpRegTx(namedtuple("DashProUpRegTx",
 
     @classmethod
     def read_tx_extra(cls, deser):
-        return DashProUpRegTx(
+        return ZipProUpRegTx(
             deser._read_le_uint16(),                    # version
             deser._read_nbytes(32),                     # proTxHash
             deser._read_le_uint16(),                    # mode
@@ -222,7 +222,7 @@ class DashProUpRegTx(namedtuple("DashProUpRegTx",
         )
 
 
-class DashProUpRevTx(namedtuple("DashProUpRevTx",
+class ZipProUpRevTx(namedtuple("ZipProUpRevTx",
                                 "version proTxHash reason "
                                 "inputsHash payloadSig")):
     '''Class representing DIP3 ProUpRevTx'''
@@ -240,7 +240,7 @@ class DashProUpRevTx(namedtuple("DashProUpRevTx",
 
     @classmethod
     def read_tx_extra(cls, deser):
-        return DashProUpRevTx(
+        return ZipProUpRevTx(
             deser._read_le_uint16(),                    # version
             deser._read_nbytes(32),                     # proTxHash
             deser._read_le_uint16(),                    # reason
@@ -249,7 +249,7 @@ class DashProUpRevTx(namedtuple("DashProUpRevTx",
         )
 
 
-class DashCbTx(namedtuple("DashCbTx", "version height merkleRootMNList "
+class ZipCbTx(namedtuple("ZipCbTx", "version height merkleRootMNList "
                                       "merkleRootQuorums bestCLHeightDiff "
                                       "bestCLSignature assetLockedAmount")):
     '''Class representing DIP4 coinbase special tx'''
@@ -284,11 +284,11 @@ class DashCbTx(namedtuple("DashCbTx", "version height merkleRootMNList "
             bestCLHeightDiff = deser._read_varint()
             bestCLSignature = deser._read_nbytes(96)
             assetLockedAmount = deser._read_le_uint64()
-        return DashCbTx(version, height, merkleRootMNList, merkleRootQuorums,
+        return ZipCbTx(version, height, merkleRootMNList, merkleRootQuorums,
                         bestCLHeightDiff, bestCLSignature, assetLockedAmount)
 
 
-# https://dash-docs.github.io/en/developer-reference#outpoint
+# https://zip-docs.github.io/en/developer-reference#outpoint
 class TxOutPoint(namedtuple("TxOutPoint", "hash index")):
     '''Class representing tx output outpoint'''
     def serialize(self):
@@ -306,8 +306,8 @@ class TxOutPoint(namedtuple("TxOutPoint", "hash index")):
         )
 
 
-class DeserializerDash(Deserializer):
-    '''Deserializer for Dash DIP2 special tx types'''
+class DeserializerZip(Deserializer):
+    '''Deserializer for Zip DIP2 special tx types'''
     # Supported Spec Tx types and corresponding classes mapping
     PRO_REG_TX = 1
     PRO_UP_SERV_TX = 2
@@ -316,11 +316,11 @@ class DeserializerDash(Deserializer):
     CB_TX = 5
 
     SPEC_TX_HANDLERS = {
-        PRO_REG_TX: DashProRegTx,
-        PRO_UP_SERV_TX: DashProUpServTx,
-        PRO_UP_REG_TX: DashProUpRegTx,
-        PRO_UP_REV_TX: DashProUpRevTx,
-        CB_TX: DashCbTx,
+        PRO_REG_TX: ZipProRegTx,
+        PRO_UP_SERV_TX: ZipProUpServTx,
+        PRO_UP_REG_TX: ZipProUpRegTx,
+        PRO_UP_REV_TX: ZipProUpRevTx,
+        CB_TX: ZipCbTx,
     }
 
     def _read_outpoint(self):
@@ -344,7 +344,7 @@ class DeserializerDash(Deserializer):
         if tx_type:
             extra_payload_size = self._read_varint()
             end = self.cursor + extra_payload_size
-            spec_tx_class = DeserializerDash.SPEC_TX_HANDLERS.get(tx_type)
+            spec_tx_class = DeserializerZip.SPEC_TX_HANDLERS.get(tx_type)
             if spec_tx_class:
                 read_method = getattr(spec_tx_class, 'read_tx_extra', None)
                 extra_payload = read_method(self)
@@ -354,5 +354,5 @@ class DeserializerDash(Deserializer):
             assert self.cursor == end
         else:
             extra_payload = b''
-        tx = DashTx(version, inputs, outputs, locktime, tx_type, extra_payload)
+        tx = ZipTx(version, inputs, outputs, locktime, tx_type, extra_payload)
         return tx

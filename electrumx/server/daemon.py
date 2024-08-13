@@ -322,7 +322,7 @@ class Daemon:
         return self._height
 
 
-class DashDaemon(Daemon):
+class ZipDaemon(Daemon):
 
     async def masternode_broadcast(self, params):
         '''Broadcast a transaction to the network.'''

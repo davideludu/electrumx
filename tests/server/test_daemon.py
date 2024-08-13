@@ -6,7 +6,7 @@ import logging
 import pytest
 
 from aiorpcx import JSONRPCv1, JSONRPCLoose, RPCError, ignore_after, Request
-from electrumx.lib.coins import BitcoinCash, CoinError, Bitzeny, Dash
+from electrumx.lib.coins import BitcoinCash, CoinError, Bitzeny, Zip
 from electrumx.server.daemon import Daemon, FakeEstimateFeeDaemon
 
 
@@ -23,8 +23,8 @@ def daemon(request):
     return coin.DAEMON(coin, ','.join(urls))
 
 
-@pytest.fixture(params=[Dash])
-def dash_daemon(request):
+@pytest.fixture(params=[Zip])
+def zip_daemon(request):
     coin = request.param
     return coin.DAEMON(coin, ','.join(urls))
 
@@ -312,10 +312,10 @@ async def test_getrawtransaction(daemon):
 
 
 @pytest.mark.asyncio
-async def test_protx(dash_daemon):
+async def test_protx(zip_daemon):
     protx_hash = 'deadbeaf'
-    dash_daemon.session = ClientSessionGood(('protx', ['info', protx_hash], {}))
-    assert await dash_daemon.protx(['info', protx_hash]) == {}
+    zip_daemon.session = ClientSessionGood(('protx', ['info', protx_hash], {}))
+    assert await zip_daemon.protx(['info', protx_hash]) == {}
 
 
 # Batch tests
